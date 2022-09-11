@@ -1,0 +1,178 @@
+<html>
+
+<head>
+	<meta charset=utf-8 />
+	<title>UA crypt</title>
+</head>
+
+<body>
+	<textarea placeholder="Введіть повідомлення" name="rawTxt" type="text" maxlength="65536" id="rawTxt" class="Text Area" oninput="track1Change(this.value)" style="width:300px; height:1000px;" ></textarea>
+	<textarea placeholder="Введіть повідомлення" name="crpTxt" type="text" maxlength="65536" id="crpTxt" class="Text Area" oninput="track2Change(this.value)" style="width:300px; height:1000px;"></textarea>
+
+	<script>
+		function encode(char) {
+			if (char == ' ') {
+				return '000';
+			}
+			if (char == 'А') {
+				return '0011';
+			}
+			if (char == 'Б') {
+				return '111010';
+			}
+			if (char == 'В') {
+				return '1000';
+			}
+			if (char == 'Г') {
+				return '111011';
+			}
+			if (char == 'Д') {
+				return '10111';
+			}
+			if (char == 'Е') {
+				return '111001';
+			}
+			if (char == 'Є') {
+				return '1111101';
+			}
+			if (char == 'Ж') {
+				return '1111011';
+			}
+			if (char == 'З') {
+				return '110111';
+			}
+			if (char == 'И') {
+				return '0101';
+			}
+			if (char == 'І') {
+				return '0110';
+			}
+			if (char == 'Ї') {
+				return '11111110';
+			}
+			if (char == 'Й') {
+				return '1111100';
+			}
+			if (char == 'К') {
+				return '10110';
+			}
+			if (char == 'Л') {
+				return '10101';
+			}
+			if (char == 'М') {
+				return '11000';
+			}
+			if (char == 'Н') {
+				return '0100';
+			}
+			if (char == 'О') {
+				return '0010';
+			}
+			if (char == 'П') {
+				return '110110';
+			}
+			if (char == 'Р') {
+				return '10010';
+			}
+			if (char == 'С') {
+				return '10011';
+			}
+			if (char == 'Т') {
+				return '0111';
+			}
+			if (char == 'У') {
+				return '10100';
+			}
+			if (char == 'Ф') {
+				return '1111111111';
+			}
+			if (char == 'Х') {
+				return '1111010';
+			}
+			if (char == 'Ц') {
+				return '1111110';
+			}
+			if (char == 'Ч') {
+				return '111000';
+			}
+			if (char == 'Ш') {
+				return '111100';
+			}
+			if (char == 'Щ') {
+				return '1111111110';
+			}
+			if (char == 'Ь') {
+				return '11001';
+			}
+			if (char == 'Ю') {
+				return '111111110';
+			}
+			if (char == 'Я') {
+				return '11010';
+			}
+			return '';
+		}
+
+		function decode(value) {
+
+			const dcarr = [
+				[
+					[' ', ['О', 'А']], [['Н', 'И'], ['І', 'Т']]
+				], [
+					[
+						['В', ['Р', 'С']],
+						[['У', 'Л'], ['К', 'Д']]
+					], [
+						[['М', 'Ь'], ['Я', ['П', 'З']]], 
+						[[['Ч', 'Е'], ['Б', 'Г']], [['Ш', ['Х', 'Ж']], [['Й', 'Є'], ['Ц', ['Ї', ['Ю', ['Щ', 'Ф']]]]]]]
+					]
+				]
+			];
+
+			var res = dcarr;
+			for (let i = 0; i < value.length; i++) {
+				res = res[parseInt(value.charAt(i))];
+			}
+			return res;
+
+		}
+
+
+		function track1Change(value) {
+			console.log(value);
+
+			var res = "";
+
+			for (let i = 0; i < value.length; i++) {
+				res = res + encode(value.toUpperCase().charAt(i));
+			}
+
+			document.getElementById("crpTxt").value = res;
+		}
+
+		function track2Change(value) {
+			console.log(value);
+			
+			var res = "";
+			var sa = "";
+
+			for (let i = 0; i < value.length; i++) {
+				sa = sa + value.toUpperCase().charAt(i);
+				var dcd = decode(sa);
+				if (!Array.isArray(dcd)) {
+	 				res = res + dcd;
+	 				sa = "";
+				}
+			}
+
+			document.getElementById("rawTxt").value = res;
+			
+
+			
+		}
+
+
+	</script>
+</body>
+
+</html>
